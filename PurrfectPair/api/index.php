@@ -41,7 +41,7 @@ if ($method === "GET") {
     } elseif ($endpoint === "pending_posts") {
         echo json_encode($postController->getPendingPosts());
     } else {
-        echo json_encode(["status" => false, "message" => "Invalid request. test"]);
+        echo json_encode(["status" => false, "message" => "Invalid request."]);
     }
 }
 ?>
