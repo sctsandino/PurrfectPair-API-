@@ -1,47 +1,42 @@
 <?php
 require_once __DIR__ . '/../config/Database.php';
-require_once __DIR__ . '/../models/Cat.php';
 
-class CatController {
-    private $catModel;
+class Cat {
+    private $conn;
+    private $table = "cats";
 
-    public function __construct() {
-        global $conn;
-        $this->catModel = new Cat($conn);
+    public function __construct($db) {
+        $this->conn = $db;
     }
 
     public function getAllCats() {
-        $cats = $this->catModel->getAllCats();
-        echo json_encode($cats);
+        $sql = "SELECT * FROM " . $this->table;
+        $result = $this->conn->query($sql);
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function addCat() {
-        $data = json_decode(file_get_contents("php://input"), true);
-        if (!isset($data['name'], $data['breed'], $data['gender'], $data['age'], $data['adopt'], $data['vaccination'], $data['adddate'])) {
-            echo json_encode(["message" => "All fields are required"]);
-            http_response_code(400);
-            return;
-        }
-
-        $success = $this->catModel->addCat($data['name'], $data['breed'], $data['gender'], $data['age'], $data['adopt'], $data['vaccination'], $data['adddate']);
-        echo json_encode(["message" => $success ? "Cat added successfully" : "Failed to add cat"]);
+    public function addCat($name, $breed, $gender, $age, $adopt, $vaccination, $adddate, $imageUri) {
+        $sql = "INSERT INTO " . $this->table . " (name, breed, gender, age, adopt, vaccination, adddate, imageUri)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ssssssss", $name, $breed, $gender, $age, $adopt, $vaccination, $adddate, $imageUri);
+        return $stmt->execute();
     }
 
-    public function updateCat($id) {
-        $data = json_decode(file_get_contents("php://input"), true);
-        if (!isset($data['name'], $data['breed'], $data['gender'], $data['age'], $data['adopt'], $data['vaccination'], $data['adddate'])) {
-            echo json_encode(["message" => "All fields are required"]);
-            http_response_code(400);
-            return;
-        }
-
-        $success = $this->catModel->updateCat($id, $data['name'], $data['breed'], $data['gender'], $data['age'], $data['adopt'], $data['vaccination'], $data['adddate']);
-        echo json_encode(["message" => $success ? "Cat updated successfully" : "Failed to update cat"]);
+    public function updateCat($id, $name, $breed, $gender, $age, $adopt, $vaccination, $adddate, $imageUri) {
+        $sql = "UPDATE " . $this->table . " SET
+                name = ?, breed = ?, gender = ?, age = ?, adopt = ?, vaccination = ?, adddate = ?, imageUri = ?
+                WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ssssssssi", $name, $breed, $gender, $age, $adopt, $vaccination, $adddate, $imageUri, $id);
+        return $stmt->execute();
     }
 
     public function deleteCat($id) {
-        $success = $this->catModel->deleteCat($id);
-        echo json_encode(["message" => $success ? "Cat deleted successfully" : "Failed to delete cat"]);
+        $sql = "DELETE FROM " . $this->table . " WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        return $stmt->execute();
     }
 }
 ?>

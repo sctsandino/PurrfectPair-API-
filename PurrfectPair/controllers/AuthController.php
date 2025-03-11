@@ -65,6 +65,16 @@ class AuthController {
             $email = trim($data['email']);
             $password = $data['password'];
 
+            // Additional validations based on the Android client-side logic:
+            if (strpos($email, ' ') !== false) {
+                sendResponse(400, "Email cannot contain spaces.");
+                return;
+            }
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !str_ends_with($email, "@gmail.com")) {
+                sendResponse(400, "Invalid Email.");
+                return;
+            }
+
             $user = $this->user->login($email, $password);
             if ($user) {
                 sendResponse(200, "Login successful.", ["user" => $user]);

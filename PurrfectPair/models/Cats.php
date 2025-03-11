@@ -15,20 +15,20 @@ class Cat {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function addCat($name, $breed, $gender, $age, $adopt, $vaccination, $adddate) {
-        $sql = "INSERT INTO " . $this->table . " (name, breed, gender, age, adopt, vaccination, adddate) 
-                VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public function addCat($name, $breed, $gender, $age, $adopt, $vaccination, $adddate, $imageUri) {
+        $sql = "INSERT INTO " . $this->table . " (name, breed, gender, age, adopt, vaccination, adddate, imageUri)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("sssssss", $name, $breed, $gender, $age, $adopt, $vaccination, $adddate);
+        $stmt->bind_param("ssssssss", $name, $breed, $gender, $age, $adopt, $vaccination, $adddate, $imageUri);
         return $stmt->execute();
     }
 
-    public function updateCat($id, $name, $breed, $gender, $age, $adopt, $vaccination, $adddate) {
-        $sql = "UPDATE " . $this->table . " SET 
-                name = ?, breed = ?, gender = ?, age = ?, adopt = ?, vaccination = ?, adddate = ?
+    public function updateCat($id, $name, $breed, $gender, $age, $adopt, $vaccination, $adddate, $imageUri) {
+        $sql = "UPDATE " . $this->table . " SET
+                name = ?, breed = ?, gender = ?, age = ?, adopt = ?, vaccination = ?, adddate = ?, imageUri = ?
                 WHERE id = ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("sssssssi", $name, $breed, $gender, $age, $adopt, $vaccination, $adddate, $id);
+        $stmt->bind_param("ssssssssi", $name, $breed, $gender, $age, $adopt, $vaccination, $adddate, $imageUri, $id);
         return $stmt->execute();
     }
 
