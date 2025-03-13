@@ -1,9 +1,13 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../helpers/response.php';
 require_once __DIR__ . '/../config/Database.php';
 
 class AuthController {
+    
     private $user;
 
     public function __construct() {

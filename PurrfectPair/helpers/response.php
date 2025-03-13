@@ -1,7 +1,15 @@
 <?php
-function sendResponse($status, $message, $data = []) {
-    http_response_code($status);
-    echo json_encode(["message" => $message, "data" => $data]);
-    exit;
+function sendResponse($statusCode, $message, $data = null) {
+    header("Content-Type: application/json");
+    http_response_code($statusCode);
+    
+    $response = ["message" => $message];
+
+    if ($data !== null) {
+        $response["data"] = $data;
+    }
+
+    echo json_encode($response);
+    exit();
 }
 ?>
