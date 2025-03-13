@@ -59,7 +59,11 @@ class AuthController {
         }
     }
 
+    
     public function login() {
+        sendResponse(200, "Test response working!");
+        exit();
+
         file_put_contents('php://stdout', "DEBUG: Function reached\n");
         try {
             $data = json_decode(file_get_contents("php://input"), true);
