@@ -1,9 +1,11 @@
 <?php
 require_once __DIR__ . '/../controllers/AuthController.php';
 require_once __DIR__ . '/../controllers/CatController.php';
+require_once __DIR__ . '/../config/Database.php';
 
-$authController = new AuthController();
-$catController = new CatController();
+$db = new Database();
+$authController = new AuthController($db);
+$catController = new CatController($db);
 
 // Auth routes
 $router->post('/register', function() use ($authController) {

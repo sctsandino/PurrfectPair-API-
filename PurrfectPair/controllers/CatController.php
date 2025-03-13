@@ -6,8 +6,7 @@ class CatController {
     private $conn;
     private $table = "cats";
 
-    public function __construct($db) {
-        $this->conn = $db;
+    public function __construct() {
     }
 
     public function getAllCats() {
