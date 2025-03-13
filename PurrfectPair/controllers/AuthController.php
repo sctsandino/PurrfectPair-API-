@@ -16,6 +16,7 @@ class AuthController {
     }
 
     public function register() {
+        file_put_contents('php://stdout', "DEBUG: Function reached\n");
         try {
             $data = json_decode(file_get_contents("php://input"), true);
             if (!isset($data['fullname'], $data['email'], $data['contactNumber'], $data['facebookName'], $data['homeAddress'], $data['password'], $data['confirmPassword'])) {
@@ -59,6 +60,7 @@ class AuthController {
     }
 
     public function login() {
+        file_put_contents('php://stdout', "DEBUG: Function reached\n");
         try {
             $data = json_decode(file_get_contents("php://input"), true);
             if (!isset($data['email'], $data['password'])) {
