@@ -2,6 +2,8 @@
 require_once __DIR__ . '/../controllers/AuthController.php';
 require_once __DIR__ . '/../controllers/CatController.php';
 require_once __DIR__ . '/../config/Database.php';
+require_once __DIR__ . '/AltoRouter.php';
+
 
 $router = new AltoRouter();
 $db = new Database();
