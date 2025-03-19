@@ -3,7 +3,7 @@ require_once __DIR__ . '/../config/Database.php';
 
 class Cats {
     private $conn;
-    private $table = "cats";
+    private $table = "posts";
 
     public function __construct($db) {
         $this->conn = $db;

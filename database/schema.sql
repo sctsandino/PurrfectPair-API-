@@ -24,15 +24,16 @@ CREATE TABLE password_resets (
 );
 
 -- Cats Table --
-CREATE TABLE cats (
+CREATE TABLE posts (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     breed VARCHAR(255) NOT NULL,
     gender VARCHAR(50) NOT NULL,
     age INT NOT NULL,
-    adopt VARCHAR(50) NOT NULL,
+    adopt_status VARCHAR(50) NOT NULL,
     vaccination VARCHAR(255) NOT NULL,
     adddate DATE NOT NULL,
     imageUri VARCHAR(255),
+    status ENUM('pending', 'approved', 'rejected') NOT NULL DEFAULT 'pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

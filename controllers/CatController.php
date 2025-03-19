@@ -4,7 +4,7 @@ require_once __DIR__ . '/../config/Database.php';
 
 class CatController {
     private $conn;
-    private $table = "cats";
+    private $table = "posts";
 
     public function __construct() {
     }
@@ -16,7 +16,7 @@ class CatController {
     }
 
     public function addCat($name, $breed, $gender, $age, $adopt, $vaccination, $adddate, $imageUri) {
-        $sql = "INSERT INTO " . $this->table . " (name, breed, gender, age, adopt, vaccination, adddate, imageUri)
+        $sql = "INSERT INTO " . $this->table . " (name, breed, gender, age, adopt_status, vaccination, adddate, imageUri)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ssssssss", $name, $breed, $gender, $age, $adopt, $vaccination, $adddate, $imageUri);
@@ -25,7 +25,7 @@ class CatController {
 
     public function updateCat($id, $name, $breed, $gender, $age, $adopt, $vaccination, $adddate, $imageUri) {
         $sql = "UPDATE " . $this->table . " SET
-                name = ?, breed = ?, gender = ?, age = ?, adopt = ?, vaccination = ?, adddate = ?, imageUri = ?
+                name = ?, breed = ?, gender = ?, age = ?, adopt_status = ?, vaccination = ?, adddate = ?, imageUri = ?
                 WHERE id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ssssssssi", $name, $breed, $gender, $age, $adopt, $vaccination, $adddate, $imageUri, $id);
