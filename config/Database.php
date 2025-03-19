@@ -1,7 +1,7 @@
 <?php
 class Database {
     private $host = "localhost";
-    private $db_name = "purrfectpair_db";
+    private $db_name = "purrfect_system";
     private $username = "root";
     private $password = "";
     public $conn;
