@@ -9,5 +9,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-require_once __DIR__ . '/../routes/api.php';
+require_once __DIR__ . '/../api.php';
 ?>
