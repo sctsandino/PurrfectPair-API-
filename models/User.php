@@ -10,7 +10,7 @@ class User {
 
     public function register($fullname, $email, $contactNumber, $facebookName, $homeAddress, $password) {
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-        $sql = "INSERT INTO users (fullname, email, contact_number, facebook_name, home_address, password) VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO users (fullname, email, contactNumber, facebookName, homeAddress, password) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$fullname, $email, $contactNumber, $facebookName, $homeAddress, $hashedPassword]);
     }
