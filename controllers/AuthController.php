@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require_once __DIR__ . '/../models/User.php';
-require_once __DIR__ . '/../helpers/response.php';
+require_once __DIR__ . '/../response.php';
 require_once __DIR__ . '/../config/Database.php';
 
 class AuthController {
@@ -88,6 +88,7 @@ class AuthController {
             $user = $this->user->login($email, $password);
             if ($user) {
                 sendResponse(200, "Login successful.", ["user" => $user]);
+                echo json_encode(["message" => "Welcome to PurrfectPair API"]);
             } else {
                 sendResponse(401, "Invalid credentials.");
             }
