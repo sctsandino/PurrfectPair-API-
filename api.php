@@ -4,11 +4,24 @@ header("Content-Type: application/json");
 
 $response = [];
 
-// Get the request URI
-$requestUri = trim($_SERVER['REQUEST_URI'], '/');
-$basePath = basename(__FILE__); // Get 'api.php'
-$endpoint = str_replace($basePath, '', $requestUri);
-$endpoint = trim($endpoint, '/'); // Extract the endpoint (e.g., 'login' or 'register')
+$requestUri = $_SERVER['REQUEST_URI']; // Example: /PurrfectPair-API-/api.php/login
+$scriptName = $_SERVER['SCRIPT_NAME']; // Example: /PurrfectPair-API-/api.php
+
+// Remove script name from request URI to get the endpoint
+$endpoint = trim(str_replace($scriptName, '', $requestUri), '/');
+
+if (empty($endpoint)) {
+    $response['error'] = true;
+    $response['message'] = "Request parameter is missing!";
+    echo json_encode($response);
+    exit;
+}
+
+file_put_contents("debug.log", "Extracted endpoint: " . $endpoint . PHP_EOL, FILE_APPEND);
+
+file_put_contents("debug.log", "REQUEST_URI: " . $_SERVER['REQUEST_URI'] . PHP_EOL, FILE_APPEND);
+
+
 
 switch ($endpoint) {
     case 'login':
@@ -17,12 +30,44 @@ switch ($endpoint) {
     case 'register':
         register($conn);
         break;
+    case 'getPosts':
+        getPosts($conn);
+        break;
     default:
         $response['error'] = true;
-        $response['message'] = "Invalid API request!";
+        $response['message'] = "Invalid API request: $endpoint";
         echo json_encode($response);
         break;
 }
+
+// Function to retrieve posts based on status
+function getPosts($conn) {
+    global $response;
+
+    $status = $_GET['status'] ?? 'approved'; // Default to 'approved'
+
+    try {
+        // Prepare SQL query with correct named parameter
+        $stmt = $conn->prepare("SELECT * FROM posts WHERE status = :status ORDER BY created_at DESC");
+        $stmt->bindParam(":status", $status, PDO::PARAM_STR); // Bind parameter
+        $stmt->execute();
+
+        // Fetch all posts
+        $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode([
+            'error' => false,
+            'message' => 'Posts retrieved successfully',
+            'data' => $posts
+        ]);
+    } catch (PDOException $e) {
+        echo json_encode([
+            'error' => true,
+            'message' => 'Database error: ' . $e->getMessage()
+        ]);
+    }
+}
+
 
 function login($conn) {
     global $response;
