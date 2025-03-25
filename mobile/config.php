@@ -1,6 +1,6 @@
 <?php
 $host = "localhost"; // Change if using a remote database
-$dbname = "purrfectpaircat_db"; // Your database name
+$dbname = "purrfect_system"; // Your database name
 $username = "root"; // Default XAMPP username
 $password = ""; // Default XAMPP password (empty)
 

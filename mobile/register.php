@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     file_put_contents("debug.log", "Received JSON: " . $json . PHP_EOL, FILE_APPEND);
 
     if (
-        isset($data['fullname'], $data['email'], $data['contactNumber'], 
+        isset($data['fullname'], $data['email'], $data['contactNumber'],
         $data['facebookName'], $data['homeAddress'], $data['password'])
     ) {
         // Sanitize input
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $response['message'] = "Email already exists!";
             } else {
                 // Insert into users table
-                $query = $conn->prepare("INSERT INTO users (fullname, email, contact_number, facebook_name, home_address, password) VALUES (?, ?, ?, ?, ?, ?)");
+                $query = $conn->prepare("INSERT INTO users (fullname, email, contactNumber, facebookName, homeAddress, password) VALUES (?, ?, ?, ?, ?, ?)");
 
                 if ($query->execute([$fullname, $email, $contactNumber, $facebookName, $homeAddress, $password])) {
                     $response['error'] = false;

@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         try {
             // Fetch user details from database
-            $query = $conn->prepare("SELECT id, fullname, email, contact_number, facebook_name, home_address, password FROM users WHERE email = ?");
+            $query = $conn->prepare("SELECT id, fullname, email, contactNumber, facebookName, homeAddress, password FROM users WHERE email = ?");
             $query->execute([$email]);
             $user = $query->fetch(PDO::FETCH_ASSOC);
 
