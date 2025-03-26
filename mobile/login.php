@@ -26,9 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     "id" => $user['id'],
                     "fullname" => $user['fullname'],
                     "email" => $user['email'],
-                    "contactNumber" => $user['contact_number'],
-                    "facebookName" => $user['facebook_name'],
-                    "homeAddress" => $user['home_address']
+                    "contactNumber" => $user['contactNumber'],
+                    "facebookName" => $user['facebookName'],
+                    "homeAddress" => $user['homeAddress']
                 ];
             } else {
                 $response['error'] = true;
